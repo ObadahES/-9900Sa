@@ -5,26 +5,10 @@ from matplotlib.colors import ListedColormap
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import bfs_dfs_methods
+from models.stateClass import State
 
 ###########################################
-
-
-class State:
-    def __init__(self, board):
-        self.board = board
-        self.goals = [(1, 1), (2, 2)]
-
-    # ----------------------------------------------------------------
-
-    def set_Board(self, board):
-        self.board = board
-
-    # ----------------------------------------------------------------
-
-    def get_Board(self):
-        return self.board
-
-    # ----------------------------------------------------------------
 
 
 class Game:
@@ -39,7 +23,6 @@ class Game:
         self.isMoving = False
         self.isWin = False
         self.isLost = False
-        # self.isDrawing = False
 
         self.goalSquare1 = patches.Rectangle(
             (1, 7), 1, 1, edgecolor="blue", facecolor="none", linewidth=3
@@ -228,7 +211,7 @@ class Game:
     # ----------------------------------------------------------------
 
     def draw(self):
-        # self.ax1.clear()
+
         self.environment()
         if self.level == "Easy":
             if self.isWin == True:
@@ -250,7 +233,7 @@ class Game:
                     self.ax1.add_patch(self.goalSquare1)
 
         else:
-            # print("isBlue : " + str(self.isBlue))
+
             if self.isBlue:
                 # self.blue_GreenToGrey_Easy()  # عندما يصل المعب الأزرق الى هدفه يتم جعل المربعات المحيطة بيضاء
                 self.blue_GreenToGrey_Hard()
@@ -258,42 +241,38 @@ class Game:
                 self.hardList[self.randomRow][self.randomCol] = 0
             if self.isRed:
                 self.red_GreenToGrey()
-                # self.hardList[self.randomRow][self.randomCol] = 0
+
                 self.hardList[self.randomRowHard][self.randomColHard] = 0
 
-            # print(self.isStoped)
             if (
                 self.isStoped == True
             ):  # في حال توقفت الأحجار عن الحركة يتم تلون المربعات حولها باللون الأخضر
                 # print("1" + str(self.hardList))
                 if (self.randomRow, self.randomCol) != (1, 1):
                     self.blue_GreyToGreen_Hard()
-                # print("2" + str(self.hardList))
+
                 if (self.randomRowHard, self.randomColHard) != (2, 5):
                     self.red_GreyToGreen()
 
             if (self.randomRow, self.randomCol) != (1, 1):
-                # print(self.randomRow, self.randomCol)
+
                 self.hardList[self.randomRow][self.randomCol] = 2
 
             else:
                 self.hardList[self.randomRow][self.randomCol] = 0
-                # self.goalSquare1.remove()
+
             if (self.randomRowHard, self.randomColHard) != (2, 5):
-                # print(self.randomRowHard, self.randomColHard)
+
                 self.hardList[self.randomRowHard][self.randomColHard] = 4
             else:
                 self.hardList[self.randomRowHard][self.randomColHard] = 0
-                # self.goalSquare2.remove()
-            # print(self.hardList)
 
             self.setSquaresColors()
-        # self.hardList[-1][-1] = 0
+
         self.ax1.set_xlim(0, self.rows + 1)
         self.ax1.set_ylim(0, self.cols + 1)
         self.ax1.set_aspect("equal")
 
-        # self.ax1.axis("off")
         if self.isRed:
             self.red_GreenToGrey()
             self.randomColHard = 0
@@ -348,11 +327,6 @@ class Game:
                 self.easyList[self.easyList == 3] = 0
                 self.updateinitialDirectionList1()
                 self.blue_GreyToGreen_Easy()
-                # self.draw()
-
-                # self.easy_History.append(self.state_Easy.board)
-                # self.state_Easy = copy.deepcopy(self.state_Easy)
-                # self.easyList = self.state_Hard.board
 
                 if self.checkWin() == True:
 
@@ -365,11 +339,7 @@ class Game:
                     self.easyList = self.state_Easy.board
                     break
                 if self.checkLose() == True:
-                    # self.draw()
-                    # self.red_GreenToGrey()
-                    # self.blue_GreenToGrey_Easy()
 
-                    # self.draw()
                     self.easy_History.append(self.state_Easy.board)
                     self.state_Easy = copy.deepcopy(self.state_Easy)
                     self.easyList = self.state_Easy.board
@@ -440,15 +410,11 @@ class Game:
                 self.hardList[self.randomRow][self.randomCol] = 2
                 self.hardList[self.randomRowHard][self.randomColHard] = 4
                 self.hardList[self.hardList == 3] = 0
-                # self.draw()
+
                 self.updateinitialDirectionList12()
         self.isStoped = True
         self.draw()
         self.isStoped = False
-
-        # self.hard_History.append(self.state_Hard.board)
-        # self.state_Hard = copy.deepcopy(self.state_Hard)
-        # self.hardList = self.state_Hard.board
 
     def down(self):
         global currentposition
@@ -459,19 +425,15 @@ class Game:
                 self.randomRow < 7
                 and (self.randomRow + 1, self.randomCol) not in self.constantsSquares
             ):
-                # if self.checkWin() == True:
-                #     break
-                # self.squaresList[self.randomRow][self.randomCol] = 0
+
                 self.easyList[self.randomRow][self.randomCol] = 0
                 self.randomRow += 1
-                # self.squaresList[self.randomRow][self.randomCol] = 2
+
                 self.easyList[self.randomRow][self.randomCol] = 2
                 self.easyList[self.easyList == 3] = 0
                 self.updateinitialDirectionList1()
                 self.blue_GreyToGreen_Easy()
-                # self.isDrawing = True
-                # self.draw()
-                # self.isDrawing = False
+
                 currentposition = (self.randomRow, self.randomCol)
 
                 if self.checkWin() == True:
@@ -479,17 +441,12 @@ class Game:
                     self.easyList[self.easyList == 3] = 0
                     self.isWin = True
 
-                    # self.draw()
-
                     self.easy_History.append(self.state_Easy.board)
                     self.state_Easy = copy.deepcopy(self.state_Easy)
                     self.easyList = self.state_Easy.board
 
                     break
                 if self.checkLose() == True:
-                    # self.draw()
-                    # self.red_GreenToGrey()
-                    # self.blue_GreenToGrey_Easy()
 
                     self.draw()
                     self.easy_History.append(self.state_Easy.board)
@@ -513,7 +470,7 @@ class Game:
                     break
 
                 if self.checkLose() == True:
-                    # self.draw()
+
                     self.red_GreenToGrey()
                     self.blue_GreenToGrey_Hard
                     break
@@ -524,19 +481,13 @@ class Game:
                     if (
                         self.randomRowHard < 7
                         and (
-                            # self.hardList[self.randomRowHard + 1][self.randomColHard]
-                            # == 0
-                            # or self.hardList[self.randomRowHard + 1][self.randomColHard]
-                            # == 3
                             self.hardList[self.randomRowHard + 1][self.randomColHard]
                             != 1
                         )
                         and (self.randomRowHard + 1, self.randomColHard)
                         != (self.randomRow, self.randomCol)
                     ):
-                        # self.hard_History.append(self.state_Hard.board)
-                        # self.state_Hard = copy.deepcopy(self.state_Hard)
-                        # self.hardList = self.state_Hard.board
+
                         self.randomRowHard += 1
                         self.redRowCheck = self.randomRowHard
                         self.updateinitialDirectionList2()
@@ -580,10 +531,6 @@ class Game:
         self.draw()
         self.isStoped == False
 
-        # self.hard_History.append(self.state_Hard.board)
-        # self.state_Hard = copy.deepcopy(self.state_Hard)
-        # self.hardList = self.state_Hard.board
-
     def right(self):
         global currentposition
         redStopped = True
@@ -593,15 +540,14 @@ class Game:
                 self.randomCol < 8
                 and (self.randomRow, self.randomCol + 1) not in self.constantsSquares
             ):
-                # self.squaresList[self.randomRow][self.randomCol] = 0
+
                 self.easyList[self.randomRow][self.randomCol] = 0
                 self.randomCol += 1
-                # self.squaresList[self.randomRow][self.randomCol] = 2
+
                 self.easyList[self.randomRow][self.randomCol] = 2
                 self.easyList[self.easyList == 3] = 0
                 self.updateinitialDirectionList1()
                 self.blue_GreyToGreen_Easy()
-                # self.draw()
 
                 if self.checkWin() == True:
 
@@ -643,12 +589,7 @@ class Game:
                     # self.draw()
                     self.red_GreenToGrey()
                     self.blue_GreenToGrey_Hard
-                    # self.goalSquare1 = patches.Rectangle(
-                    #     (1, 7), 1, 1, edgecolor="black", facecolor="none", linewidth=0
-                    # )
-                    # self.goalSquare2 = patches.Rectangle(
-                    #     (5, 6), 1, 1, edgecolor="black", facecolor="none", linewidth=0
-                    # )
+
                     break
 
                 self.hardList[self.randomRow][self.randomCol] = 0
@@ -705,10 +646,6 @@ class Game:
         self.draw()
         self.isStoped = False
 
-        # self.hard_History.append(self.state_Hard.board)
-        # self.state_Hard = copy.deepcopy(self.state_Hard)
-        # self.hardList = self.state_Hard.board
-
     def left(self):
         global currentposition
         redStopped = True
@@ -737,9 +674,6 @@ class Game:
                     self.easyList = self.state_Easy.board
                     break
                 if self.checkLose() == True:
-                    # self.draw()
-                    # self.red_GreenToGrey()
-                    # self.blue_GreenToGrey_Easy()
 
                     self.draw()
                     self.easy_History.append(self.state_Easy.board)
@@ -766,12 +700,7 @@ class Game:
                     # self.draw()
                     self.red_GreenToGrey()
                     self.blue_GreenToGrey_Hard
-                    # self.goalSquare1 = patches.Rectangle(
-                    #     (1, 7), 1, 1, edgecolor="black", facecolor="none", linewidth=0
-                    # )
-                    # self.goalSquare2 = patches.Rectangle(
-                    #     (5, 6), 1, 1, edgecolor="black", facecolor="none", linewidth=0
-                    # )
+
                     break
 
                 self.hardList[self.randomRow][self.randomCol] = 0
@@ -825,18 +754,11 @@ class Game:
                 self.hardList[self.randomRow][self.randomCol] = 2
                 self.hardList[self.randomRowHard][self.randomColHard] = 4
                 self.hardList[self.hardList == 3] = 0
-                # self.isDrawing = True
-                # self.draw()
 
-                # self.isDrawing = False
                 self.updateinitialDirectionList12()
         self.isStoped = True
         self.draw()
         self.isStoped = False
-
-        # self.hard_History.append(self.state_Hard.board)
-        # self.state_Hard = copy.deepcopy(self.state_Hard)
-        # self.hardList = self.state_Hard.board
 
     # ----------------------------------------------------------------
 
@@ -1109,215 +1031,3 @@ class Game:
                 self.hardList[r][w] = 0
 
     # ----------------------------------------------------------------
-
-    # ----------------------------------------------------------------
-
-    def next_State(self, board, currentBlue, currentRed):
-        # blueOver = True
-        # redOver = True
-        # self.updateinitialDirectionList1()
-        # self.updateinitialDirectionList2()
-        board[board == 3] = 0
-        array = copy.deepcopy(board)
-        nesxSteps = []
-        nesxSteps.append(board)
-        stepsList = [(0, (-1)), (0, 1), ((-1), 0), (1, 0)]
-        # print("currentBlue : " + str(currentBlue))
-        # print("currentRed : " + str(currentRed))
-        for r, w in stepsList:
-            # nesxSteps.append(array)
-            nextboard = copy.deepcopy(board)
-            blueOver = True
-            redOver = True
-            nextRedRow = currentRed[0]
-            nextRedCol = currentRed[1]
-            nextBlueRow = currentBlue[0]
-            nextBlueCol = currentBlue[1]
-            while redOver or blueOver:
-
-                if (
-                    nextRedRow + r > 0
-                    and nextRedRow + r < 8
-                    and nextRedCol + w > 0
-                    and nextRedCol + w < 9
-                    and array[nextRedRow + r][nextRedCol + w] != 1
-                    and array[nextRedRow + r][nextRedCol + w] != 2
-                    and (nextRedRow, nextRedCol) != (2, 5)
-                ):
-
-                    nextboard[nextboard == 4] = 0
-                    nextRedRow += r
-                    nextRedCol += w
-                    array[nextRedRow][nextRedCol] = 4
-                else:
-                    redOver = False
-
-                    if (
-                        nextBlueRow + r > 0
-                        and nextBlueRow + r < 8
-                        and nextBlueCol + w > 0
-                        and nextBlueCol + w < 9
-                        and array[nextBlueRow + r][nextBlueCol + w] != 1
-                        and array[nextBlueRow + r][nextBlueCol + w]
-                        != 4  # منسان المربع التاني الأحمر
-                        and (nextBlueRow, nextBlueCol) != (1, 1)
-                    ):
-                        nextboard[nextboard == 2] = 0
-                        nextBlueRow += r
-                        nextBlueCol += w
-                        nextboard[nextBlueRow][nextBlueCol] = 2
-                    else:
-                        blueOver = False
-
-            nesxSteps.append(nextboard)
-        return nesxSteps
-
-    # ----------------------------------------------------------------
-
-    def dfs_search(self, startBoard):
-        goal = np.array(
-            [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 2, 0, 1, 1, 1, 1, 1, 0, 1],
-                [1, 0, 0, 0, 0, 4, 1, 0, 1, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 1, 1, 0, 0, 0, 1, 0, 1],
-                [1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-                [1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 1, 5, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 5, 1],
-            ]
-        )
-        # print(startBoard)
-        visited = []
-        # print(str(startBoard) + "\n")
-        stack = [[startBoard]]
-        while stack:
-            path = stack.pop()
-            # print(path)
-            node = path[-1]  # البورد يلي ضفتها آخر شي عالمسار
-            blueIndices = np.argwhere(node == 2)
-            if blueIndices.size > 0:
-                currectBluePosition = [int(blueIndices[0][0]), int(blueIndices[0][1])]
-            redIndices = np.argwhere(node == 4)
-            if redIndices.size > 0:
-                currectRedPosition = [int(redIndices[0][0]), int(redIndices[0][1])]
-            if any(np.array_equal(node, visited_node) for visited_node in visited):
-                continue
-            else:
-                # print("node : ", node)
-                visited.append(copy.deepcopy(node))
-            if np.array_equal(node, goal):
-
-                print("path : ", path)
-                return path
-            else:
-
-                adjacentNodes = self.next_State(
-                    node,
-                    [currectBluePosition[0], currectBluePosition[1]],
-                    [currectRedPosition[0], currectRedPosition[1]],
-                )
-                # print(adjacentNodes)
-                # print(
-                #     """
-
-                #         """
-                # )
-
-                for node in adjacentNodes:
-                    # newPath = path.copy()
-                    newPath = copy.deepcopy(path)
-                    newPath.append(node)
-                    stack.append(newPath)
-
-    # ----------------------------------------------------------------
-
-    def bfs_search(self, startBoard):
-        goal = np.array(
-            [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 2, 0, 1, 1, 1, 1, 1, 0, 1],
-                [1, 0, 0, 0, 0, 4, 1, 0, 1, 1],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                [1, 0, 1, 1, 0, 0, 0, 1, 0, 1],
-                [1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-                [1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-                [1, 0, 0, 0, 0, 0, 0, 1, 5, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 5, 1],
-            ]
-        )
-        # print(startBoard)
-        visited = []
-        # print(str(startBoard) + "\n")
-        queue = [[startBoard]]
-        while queue:
-            path = queue.pop(0)
-            # print(path)
-            node = path[-1]  # البورد يلي ضفتها آخر شي عالمسار
-            blueIndices = np.argwhere(node == 2)
-            if blueIndices.size > 0:
-                currectBluePosition = [int(blueIndices[0][0]), int(blueIndices[0][1])]
-            redIndices = np.argwhere(node == 4)
-            if redIndices.size > 0:
-                currectRedPosition = [int(redIndices[0][0]), int(redIndices[0][1])]
-            if any(np.array_equal(node, visited_node) for visited_node in visited):
-                continue
-            else:
-                # print("node : ", node)
-                visited.append(copy.deepcopy(node))
-            if np.array_equal(node, goal):
-
-                print("path : ", path)
-                return path
-            else:
-
-                adjacentNodes = self.next_State(
-                    node,
-                    [currectBluePosition[0], currectBluePosition[1]],
-                    [currectRedPosition[0], currectRedPosition[1]],
-                )
-
-                for node in adjacentNodes:
-                    # newPath = path.copy()
-                    newPath = copy.deepcopy(path)
-                    newPath.append(node)
-                    queue.append(newPath)
-
-
-# ----------------------------------------------------------------
-game = Game()
-game.startScreen()
-print(len(game.hard_History))
-
-# game = Game()
-# path = game.dfs_search(game.state.board)
-# print(path)
-# s = np.array(
-#     [
-#         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-#         [1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
-#         [1, 0, 0, 0, 0, 0, 1, 0, 1, 1],
-#         [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-#         [1, 0, 1, 1, 0, 0, 0, 1, 0, 1],
-#         [1, 0, 0, 1, 0, 1, 4, 1, 0, 1],
-#         [1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-#         [1, 2, 0, 0, 0, 0, 0, 1, 5, 1],
-#         [1, 1, 1, 1, 1, 1, 1, 1, 5, 1],
-#     ]
-# )
-
-# game = Game()
-# path = game.dfs_search(s)
-# # print(path)
-
-# game = Game()
-# path = game.bfs_search(s)
-# print(path)
-
-# steps = game.next_State(
-#     game.hardList,
-#     [game.randomRow, game.randomCol],
-#     [game.randomRowHard, game.randomColHard],
-# )
-# print(steps)
