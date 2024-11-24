@@ -9,6 +9,7 @@ class State:
         self.board = board
         self.parent = parent
         self.goals = [(1, 1), (2, 2)]
+        cost = 0
 
     # ----------------------------------------------------------------
 
@@ -42,7 +43,7 @@ class State:
             raise TypeError(
                 "The 'state' parameter must be an instance of the 'State' class."
             )
-
+        cost = 0 #######################################quiz
         # نسخ البورد للحفاظ على محتوى الحالة الأصلية
         # initial_board = copy.deepcopy(state.board)
         nesxSteps = []
@@ -57,6 +58,7 @@ class State:
 
         # تكرار لكل اتجاه للحركة
         for r, w in stepsList:
+            cost += 1 #  زيادة التكلفة مع كل حركة #######################################quiz
             nextstate = copy.deepcopy(state)  # نسخة مستقلة للخطوة
             blueOver = True
             redOver = True
@@ -104,7 +106,7 @@ class State:
                 else:
                     blueOver = False
 
-            nesxSteps.append(State(nextstate.board, state))
+            nesxSteps.append(State(nextstate.board, state,cost=cost)) #######################################quiz // وضع قيمة التكلفة بعد كل حركة
         # print("next", nesxSteps)
         return nesxSteps
 

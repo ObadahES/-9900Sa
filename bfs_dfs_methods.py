@@ -5,10 +5,10 @@ import numpy as np
 
 
 def dfs_search(board):
-
+    cost = 0
     board[board == 3] = 0
     startState = St(board)
-
+    
     visited = []
     states = []
     stack = [startState]
