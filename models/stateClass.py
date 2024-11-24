@@ -5,11 +5,11 @@ import numpy as np
 
 
 class State:
-    def __init__(self, board=None, parent=None):
+    def __init__(self, board=None, parent=None,cost=0):
         self.board = board
         self.parent = parent
         self.goals = [(1, 1), (2, 2)]
-        cost = 0
+        self.cost = cost
 
     # ----------------------------------------------------------------
 

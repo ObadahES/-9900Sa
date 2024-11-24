@@ -1,5 +1,6 @@
 
-
+from models.stateClass import State as St
+import numpy as np
 def ucs_search(board):
     board[board == 3] = 0
 
