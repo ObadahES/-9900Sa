@@ -5,7 +5,7 @@ from matplotlib.colors import ListedColormap
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-import bfs_dfs_methods
+import algorithms
 from models.stateClass import State
 
 ###########################################

@@ -5,7 +5,7 @@ import numpy as np
 
 
 class State:
-    def __init__(self, board=None, parent=None,cost=0):
+    def __init__(self, board=None, parent=None, cost=0):
         self.board = board
         self.parent = parent
         self.goals = [(1, 1), (2, 2)]
@@ -43,7 +43,7 @@ class State:
             raise TypeError(
                 "The 'state' parameter must be an instance of the 'State' class."
             )
-        cost = 0 #######################################quiz
+        cost = 0  #######################################quiz
         # نسخ البورد للحفاظ على محتوى الحالة الأصلية
         # initial_board = copy.deepcopy(state.board)
         nesxSteps = []
@@ -58,7 +58,7 @@ class State:
 
         # تكرار لكل اتجاه للحركة
         for r, w in stepsList:
-            cost += 1 #  زيادة التكلفة مع كل حركة #######################################quiz
+            cost += 1  #  زيادة التكلفة مع كل حركة #######################################quiz
             nextstate = copy.deepcopy(state)  # نسخة مستقلة للخطوة
             blueOver = True
             redOver = True
@@ -106,7 +106,9 @@ class State:
                 else:
                     blueOver = False
 
-            nesxSteps.append(State(nextstate.board, state,cost=cost)) #######################################quiz // وضع قيمة التكلفة بعد كل حركة
+            nesxSteps.append(
+                State(nextstate.board, state, cost=state.cost + 1)
+            )  #######################################quiz // وضع قيمة التكلفة بعد كل حركة
         # print("next", nesxSteps)
         return nesxSteps
 
