@@ -156,21 +156,25 @@ def ucs_search(board):
 
 # -------------------------------------------------
 def recursive(currentState, visited, path):
-    # إضافة الحالة الحالية إلى المسار
+    ###### إضافة الحالة الحالية إلى المسار ######
+    if not isinstance(currentState, St):
+        raise TypeError(
+            "The 'state' parameter must be an instance of the 'State' class."
+        )
     path.append(currentState.board)
     visited.append(currentState)
 
-    # تحديد موقع المكعب الأزرق والأحمر
+    ####### تحديد موقع المكعب الأزرق والأحمر ######
     blueIndices = np.argwhere(currentState.board == 2)
     currectBluePosition = [int(blueIndices[0][0]), int(blueIndices[0][1])]
     redIndices = np.argwhere(currentState.board == 4)
     currectRedPosition = [int(redIndices[0][0]), int(redIndices[0][1])]
 
-    # التحقق من الوصول إلى الهدف
+    ####### التحقق من الوصول إلى الهدف ######
     if currectBluePosition == [1, 1] and currectRedPosition == [2, 5]:
         return path  # إعادة المسار عند الوصول إلى الهدف
 
-    # الحصول على الحالات التالية
+    ####### هنا يتم التعرف على الحالات التالية ######
     nextStates = St.next_State(
         currentState,
         [currectBluePosition[0], currectBluePosition[1]],
