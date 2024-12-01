@@ -208,6 +208,7 @@ def dfs_search_recursive(board):
         return [], len(visited)  # إذا لم يتم العثور على مسار
 
 
+################################################# heuristic quiz #################################################
 def heuristic(state):
 
     currentState = state
