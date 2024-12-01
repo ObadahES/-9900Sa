@@ -1,3 +1,4 @@
+import copy
 from models.stateClass import State as St
 import numpy as np
 
@@ -205,3 +206,51 @@ def dfs_search_recursive(board):
         return result, len(visited)  # إعادة المسار وعدد الحالات التي تمت زيارتها
     else:
         return [], len(visited)  # إذا لم يتم العثور على مسار
+
+
+def heuristic(state):
+
+    currentState = state
+    xRedGoal = 2
+    yRedGoal = 5
+
+    xBlueGoal = 1
+    yBlueGoal = 1
+
+    if not isinstance(currentState, St):
+        raise TypeError(
+            "The 'state' parameter must be an instance of the 'State' class."
+        )
+
+    blueIndices = np.argwhere(currentState.board == 2)
+    currectBluePosition = [int(blueIndices[0][0]), int(blueIndices[0][1])]
+    redIndices = np.argwhere(currentState.board == 4)
+    currectRedPosition = [int(redIndices[0][0]), int(redIndices[0][1])]
+
+    hRed = (xRedGoal - currectRedPosition[0]) + (yRedGoal - currectBluePosition[1])
+    hBlue = (xBlueGoal - currectRedPosition[0]) + (yBlueGoal - currectBluePosition[1])
+    h = hRed + hBlue
+
+    nextStates = St.next_State(
+        currentState,
+        [currectBluePosition[0], currectBluePosition[1]],
+        [currectRedPosition[0], currectRedPosition[1]],
+    )
+
+    for st in nextStates:
+        if not isinstance(st, St):
+            raise TypeError(
+                "The 'state' parameter must be an instance of the 'State' class."
+            )
+        stblueIndices = np.argwhere(st.board == 2)
+        stBluePosition = [int(stblueIndices[0][0]), int(stblueIndices[0][1])]
+        redIndices = np.argwhere(st.board == 4)
+        stRedPosition = [int(redIndices[0][0]), int(redIndices[0][1])]
+
+        h_Child_Red = (2 + stRedPosition[0]) + (5 + stRedPosition[1])
+        h_Child_Blue = (2 + stBluePosition[0]) + (5 + stBluePosition[1])
+
+        h_Child = h_Child_Red + h_Child_Blue
+        if h_Child < h:
+            currentState = copy.deepcopy(st)
+    return currentState
