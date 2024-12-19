@@ -1,0 +1,37 @@
+	Space	    Time	           Path_N  visited_N		                            level 10	
+	1285.66 kb	4.5319 (S)	        44	        300	                BFS		
+	474.83 kb	19.7448 (S)	        79	        244	                DFS		
+	284.51 kb	8.0195 (S)	        83	        155	                R_DFS		
+	746.32 kb	 11.0843 (S)	    46	        299 	            UCS		
+	775.56 kb	8.4270 (S)	        56	        581	                A*+MH		
+	746.32 kb	6.3067 (S)	        45	        572	                A*+ADV_H		
+	12.69 kb	0.0120 (S)	        None	    5	                Sleepest		
+	12.69 kb	0.0109 (S)	        None	    5	                Simplest		
+							
+
+
+
+	Space	            Time             Path_N	    visited_N		                    level 20
+	7556.39 kb	        27.3016 (S)	        13	    3023	    BFS	
+	422.48 kb	        5.7606 (S)	        76	    258	        DFS	
+	98.40 kb	        0.1995 (S)	        25	    25	        R_DFS	
+	1205.05 kb	        7.5594 (S)	        15	    1681	    UCS	
+	239.93 kb	        2.1153 (S)	        148	    16	        A*+MH	
+	652.97 kb	        6.7122 (S)	        449	    15	        A*+ADV_H	
+	6.09 kb	            0.0100 (S)		    0       3	        Sleepest	
+	7.62 kb	            0.0180 (S)		    0       4	        Simplest	
+
+
+
+
+
+						
+	Space	                Time            	Path_N	visited_N		                level 30
+	198191.20 kb	        1009.5322 (S)	    16	    37401	    BFS	
+	1650.23 kb	            543.1153 (S)	    301	    836	        DFS	
+	1159.21 kb	            696.2438 (S)	    276	    783	        R_DFS	
+	215000.00 kb	        418.3512 (S)	    22	    39288	    UCS	
+	1335.06 kb	            26.0511 (S)	        65	    491	        A*+MH	
+	4865.05 kb	            80.8278 (S)	        14	    2150	    A*+ADV_H	
+	5.77 kb	                0.0060 (S)	        0	    1	        Sleepest	
+	4.88 kb	                0.0030 (S)	        0	    1	        Simplest	
